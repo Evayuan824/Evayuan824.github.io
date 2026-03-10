@@ -1,17 +1,69 @@
+/*
+Prototyping with Code
+Eva Yuan | yuan.ev@northeastern.edu
+Assignment 6 
+
+Instructions:
+- Draw: hold LEFT mouse and drag
+- Erase: hold RIGHT mouse and drag
+- Clear: press C
+- Save: press S
+- Colors: R (red), G (green), B (blue), K (black), O (random)
+*/
+
+let clr = [0, 0, 0];
+
 function setup() {
-  // Create a canvas as big as the container window
-  createCanvas(windowWidth, windowHeight);
-  textAlign(CENTER, CENTER);
+  createCanvas(600, 600);
+  stroke(0, 127);
+  strokeWeight(5);
+  background(255);
 }
 
 function draw() {
-  background(220);
-  textSize(height / 16);
-  text("Assignment[6]", width / 2, height / 2);
+// instructions at the top 
+  noStroke();
+  fill(220, 220);
+  rect(10, 10, 380, 55);
+  fill(0);
+  textSize(12);
+  text("Draw: LEFT drag | Erase: RIGHT drag | C = clear | S = save", 20, 30);
+  text("R = Red | G = Green | B = Blue | K = Black | O = Random", 20, 50);
+  
+// draw / erase
+if (mouseIsPressed && mouseButton === LEFT) { 
+  let d = dist(mouseX, mouseY, pmouseX, pmouseY);
+  stroke(clr);
+  strokeWeight(0.2 * d + random(5)); // brush size changes randomly
+  line(pmouseX, pmouseY, mouseX, mouseY);
+
+} else if (mouseIsPressed && mouseButton === RIGHT) { 
+  stroke(255); // background color = erase
+  strokeWeight(100);
+  line(pmouseX, pmouseY, mouseX, mouseY);
+}
+  
 }
 
-// This function is called any time the window is resized
-function windowResized() {
-  // Change the canvas size to fit the window
-  resizeCanvas(windowWidth, windowHeight);
+// board clears if c key is clicked 
+function keyPressed() {
+  if (key == "C" || key == "c") {
+    background(255);
+    
+    // saves drawing 
+  } else if (key == "S" || key == "s") { 
+    saveCanvas("assignment6.png");
+    
+    // color for each button 
+  } else if (key == "R" || key == "r") {
+    clr = [255, 134, 134];
+  } else if (key == "G" || key == "g") {
+    clr = [0, 255, 0];
+  } else if (key == "B" || key == "b") {
+    clr = [200, 200, 255];
+  } else if (key == "K" || key == "k") {
+    clr = [0, 0, 0];
+  } else if (key == "O" || key == "o") {
+    clr = [random(255), random(255), random(255)];
+  }
 }
